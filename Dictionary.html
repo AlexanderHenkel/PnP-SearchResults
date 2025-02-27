@@ -1,0 +1,183 @@
+<content id="data-content">
+    <style>
+        /* Styling for the card */
+.template--card {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 100%;
+    flex-basis: {{@root.properties.layoutProperties.columnSizePercentage}}%;
+}
+
+.pnp-QuickLink-box {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 4px 10px;
+margin: 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+transition: box-shadow 0.3s;
+background-color: #3d5d78;
+width: 100%;
+}
+
+.pnp-card-first-line {
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+color: white;
+width: 100%;
+}
+
+a {
+color: white;
+text-decoration: none;
+}
+
+/_ Modern Arrow Icons _/
+.info-icon,
+.close-icon {
+cursor: pointer;
+font-size: 20px;
+color: white;
+transition: transform 0.3s ease, color 0.2s ease;
+padding: 5px;
+margin-right: 10px;
+}
+
+.info-icon:hover,
+.close-icon:hover {
+color: #5d90b9;
+}
+
+/_ Hidden text _/
+.hidden-text {
+display: none;
+color: white;
+font-size: 14px;
+margin: 2px 10px 0 0;
+text-align: left;
+padding: 6px;
+border-radius: 10px;
+width: 100%;
+box-sizing: border-box;
+opacity: 0;
+transform: translateY(-10px);
+transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/_ Checkbox toggle _/
+.toggle-text {
+display: none;
+}
+
+.toggle-text:checked + .pnp-QuickLink-box .hidden-text {
+display: block;
+opacity: 1;
+transform: translateY(0);
+}
+
+.toggle-text:checked + .pnp-QuickLink-box .info-icon {
+display: none;
+}
+
+.toggle-text:checked + .pnp-QuickLink-box .close-icon {
+display: block;
+transform: rotate(360deg);
+}
+
+.close-icon {
+display: none;
+}
+
+/_ Pagination Styling _/
+pnp-pagination a {
+color: black !important;
+font-weight: bold;
+text-decoration: none;
+}
+
+pnp-pagination a:hover {
+color: black !important;
+}
+
+pnp-pagination .current-page {
+color: white !important;
+background-color: black !important;
+border-radius: 5px;
+padding: 5px;
+}
+
+/_ Header Styling _/
+.template--header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+}
+
+.template--see-all {
+margin-left: auto;
+margin-right: 15px;
+}
+
+.template--see-all a {
+color: #3d5d78;
+text-decoration: none;
+font-weight: bold;
+}
+    </style>
+    <div class="template--header">
+        <div class="template--resultCount">
+            {{#if @root.properties.showResultsCount}}
+            <label class="ms-fontWeight-semibold">{{getCountMessage @root.data.totalItemsCount @root.inputQueryText}}</label>
+            {{/if}}
+        </div>
+        <div class="template--see-all">
+            <a href="https://schoucompany.sharepoint.com/sites/QualityAndCompliance/SitePages/Dictionary-all-results.aspx">See all</a>
+        </div>
+    </div>
+    <div class="template--cardContainer">
+        {{#each data.items as |item|}}
+        <div class="template--card">
+            <!-- The input checkbox used to toggle visibility -->
+            <input type="checkbox" class="toggle-text" id="toggle-{{slot item @root.slots.ItemId}}">
+            <div class="pnp-QuickLink-box">
+                <div class="pnp-card-first-line">
+                    <span class="pnp-QuickLinkBox-title">
+                        {{#if (slot item @root.slots.DictionaryLink)}}
+                        <a href="{{slot item @root.slots.DictionaryLink}}" data-interception="off" target="_blank">
+                            {{slot item @root.slots.Title}} 🔗
+                        </a>
+                        {{else}}
+{{slot item @root.slots.Title}}
+{{/if}}
+                    </span>
+                    <!-- Info Icon to show text (right arrow) -->
+                    <label for="toggle-{{slot item @root.slots.ItemId}}" class="info-icon">▶</label>
+                    <!-- Close Icon to hide text (down arrow) -->
+                    <label for="toggle-{{slot item @root.slots.ItemId}}" class="close-icon">▼</label>
+                </div>
+                <!-- Hidden Text content -->
+                <div class="hidden-text">{{slot item @root.slots.Title}}</div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{#if @root.properties.paging.showPaging}}
+{{#gt @root.data.totalItemsCount @root.properties.paging.itemsCountPerPage}}
+    <pnp-pagination
+        data-total-items="{{@root.data.totalItemsCount}}"
+        data-hide-first-last-pages="{{@root.properties.paging.hideFirstLastPages}}"
+        data-hide-disabled="{{@root.properties.paging.hideDisabled}}"
+        data-hide-navigation="{{@root.properties.paging.hideNavigation}}"
+        data-range="{{@root.properties.paging.pagingRange}}"
+        data-items-count-per-page="{{@root.properties.paging.itemsCountPerPage}}"
+        data-current-page-number="{{@root.paging.currentPageNumber}}"
+        data-theme-variant="{{JSONstringify @root.theme}}"
+    ></pnp-pagination>
+    {{/gt}}
+{{/if}}
+</content>
