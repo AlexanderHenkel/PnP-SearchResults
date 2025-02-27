@@ -36,7 +36,7 @@ color: white;
 text-decoration: none;
 }
 
-/_ Modern Arrow Icons _/
+/* Hidden text */
 .info-icon,
 .close-icon {
 cursor: pointer;
@@ -52,7 +52,7 @@ margin-right: 10px;
 color: #5d90b9;
 }
 
-/_ Hidden text _/
+/* Hidden text */
 .hidden-text {
 display: none;
 color: white;
@@ -68,7 +68,7 @@ transform: translateY(-10px);
 transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/_ Checkbox toggle _/
+/* Hidden text */
 .toggle-text {
 display: none;
 }
@@ -92,7 +92,7 @@ transform: rotate(360deg);
 display: none;
 }
 
-/_ Pagination Styling _/
+/* Hidden text */
 pnp-pagination a {
 color: black !important;
 font-weight: bold;
@@ -110,7 +110,7 @@ border-radius: 5px;
 padding: 5px;
 }
 
-/_ Header Styling _/
+/* Hidden text */
 .template--header {
 display: flex;
 justify-content: space-between;
@@ -161,7 +161,7 @@ font-weight: bold;
                     <label for="toggle-{{slot item @root.slots.ItemId}}" class="close-icon">▼</label>
                 </div>
                 <!-- Hidden Text content -->
-                <div class="hidden-text">{{slot item @root.slots.Title}}</div>
+                <div class="hidden-text">{{slot item @root.slots.DictionaryDescription}}</div>
             </div>
         </div>
         {{/each}}
